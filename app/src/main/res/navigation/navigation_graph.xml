@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_graph"
+    app:startDestination="@id/cards">
+
+    <fragment
+        android:id="@+id/cards"
+        android:name="com.example.flashcards.cards"
+        android:label="Cards"
+        tools:layout="@layout/fragment_cards" >
+        <action
+            android:id="@+id/action_cards_to_practiceCards"
+            app:destination="@id/practiceCards"
+            />
+
+    </fragment>
+<!--    todo: add enter and exit animations-->
+    <fragment
+        android:id="@+id/create_new"
+        android:name="com.example.flashcards.create_new"
+        android:label="Create"
+        tools:layout="@layout/fragment_create_new" />
+    <fragment
+        android:id="@+id/account"
+        android:name="com.example.flashcards.account"
+        android:label="Account"
+        tools:layout="@layout/fragment_account" />
+    <fragment
+        android:id="@+id/practiceCards"
+        android:name="com.example.flashcards.PracticeCards"
+        android:label="fragment_practice_cards"
+        tools:layout="@layout/fragment_practice_cards" >
+        <action
+            android:id="@+id/action_practiceCards_to_cards"
+            app:destination="@id/cards" />
+
+    </fragment>
+</navigation>
