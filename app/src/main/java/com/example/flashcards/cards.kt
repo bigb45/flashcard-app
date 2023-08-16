@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.flashcards.data.Covercard
@@ -20,11 +21,12 @@ private const val ARG_PARAM2 = "param2"
  * Use the [cards.newInstance] factory method to
  * create an instance of this fragment.
  */
-class cards : Fragment() {
+class cards : Fragment(), CardClick{
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
     lateinit var adapter: CovercardAdapter
+    private val viewModel by viewModels<SharedViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,11 +47,14 @@ class cards : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val card1 = Covercard("Hi mom", "this is the greatest card oat", 4, mutableListOf())
-        val card2 = Covercard("Biology", "Biology class flashcards", 32, mutableListOf())
-        val card3 = Covercard("Spanish", "Flashcards for the Spanish language", 21, mutableListOf())
-        val navController = findNavController()
-        adapter = CovercardAdapter(mutableListOf(card1, card2, card3), navController)
+//        val card1 = Covercard(title="Hi mom", subtitle="this is the greatest card oat", count = 4, flashcards=mutableListOf())
+//        val card2 = Covercard(title="Biology", subtitle="Biology class flashcards", count = 32, flashcards=mutableListOf())
+//        val card3 = Covercard(title="Spanish", subtitle="Flashcards for the Spanish language", count = 21, flashcards=mutableListOf())
+
+        val card1 = Covercard(title="Hi mom", subtitle="this is the greatest card oat", count = 4)
+        val card2 = Covercard(title="Biology", subtitle="Biology class flashcards", count = 32)
+        val card3 = Covercard(title="Spanish", subtitle="Flashcards for the Spanish language", count = 21)
+        adapter = CovercardAdapter(mutableListOf(card1, card2, card3), this)
         recyclerViewFlashcards.adapter = adapter
         recyclerViewFlashcards.layoutManager = LinearLayoutManager(context)
         super.onViewCreated(view, savedInstanceState)
@@ -72,5 +77,10 @@ class cards : Fragment() {
                     putString(ARG_PARAM2, param2)
                 }
             }
+    }
+
+    override fun onCardClickListener() {
+        val navController = findNavController()
+        viewModel.onEvent(CardEvent.EnterViewMode(navController, R.id.action_cards_to_practiceCards))
     }
 }
